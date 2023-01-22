@@ -1,0 +1,18 @@
+nav{
+  min-width: 10vw;
+
+
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+
+  .active{
+    background-color: blue;
+  }
+  a{
+    padding: 1em 0;
+    color: rgba(22,26,9,0.82);
+
+    text-decoration: none;
+  }
+}

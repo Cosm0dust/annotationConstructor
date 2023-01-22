@@ -1,0 +1,245 @@
+<div [ngSwitch]="openedTab">
+  <div *ngSwitchCase="'opener'">
+    <div>
+      <p>Це форма написання аннотації , яка надає можливість швидше написати аннотацію на хоровий твір та порівняти її з іншими аннотаціями</p>
+      <button (click)="openedTab = 'reducting'">Почати написання аннотації</button>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="'reducting'">
+    <form [ngSwitch]="partForm" [formGroup]="annotationForm" (ngSubmit)="onSub()">
+
+      <div *ngSwitchCase="'title'">
+        <app-title formGroupName="title"  (changeTab)="onTabChange($event)" [composers]="composers"></app-title>
+        <div class="title">
+          <div class="result">
+            <h1>Анотація</h1>
+            <div [ngSwitch]="this.annotationForm.value.title?.type">
+              <div *ngSwitchCase="'opera'">
+                <p>хору з {{this.annotationForm.value.title?.piece_part}} дії опери
+                  "{{this.annotationForm.value.title?.wholeComposition}}" {{this.annotationForm.value.title?.composed}}</p>
+                <p>"{{this.annotationForm.value.title?.piece_name}}"</p>
+              </div>
+              <div *ngSwitchCase="'part'">
+                <p>хору з {{this.annotationForm.value.title?.piece_part}} частини з
+                  "{{this.annotationForm.value.title?.wholeComposition}}" {{this.annotationForm.value.title?.composed}}</p>
+                <p>"{{this.annotationForm.value.title?.piece_name}}"</p>
+              </div>
+              <div *ngSwitchCase="'miniature'">
+                <p>до хорового твору <span
+                  *ngIf="this.annotationForm.value.title?.accompaniment === 'true'">з супрододом</span>
+                </p>
+                <p> "{{this.annotationForm.value.title?.piece_name}}" {{this.annotationForm.value.title?.composed}}</p>
+              </div>
+            </div>
+            <p>Підготовлена <span *ngIf="this.annotationForm.value.title?.man === 'male'; else: female">студентом</span>
+              <ng-template #female>
+                <span>студенткою</span></ng-template>
+              {{this.annotationForm.value.title?.course}} курсу
+            </p>
+            <p>{{this.annotationForm.value.title?.fullName}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'historical'">
+        <app-historical formGroupName="historical" (changeTab)="onTabChange($event)"></app-historical>
+        <div class="historical">
+          <h2>Загальний аналіз твору</h2>
+          <h3>Відомості про композитора:</h3>
+          <div *ngIf="this.annotationForm.value.title?.composed === 'Леонтович'">
+            <div>{{this.composers[this.foundIndex].composer_biography}}</div>
+            <div>{{this.composers[this.foundIndex].composer_works}}</div>
+          </div>
+          <h3>Відомості про автора:</h3>
+          <div [innerHTML]="this.annotationForm.value.historical?.text_author | areaTransform"></div>
+          <div>Жанр цього твору:{{this.annotationForm.value.historical?.genre}}</div>
+          <div [innerHTML]="this.annotationForm.value.historical?.text_content | areaTransform"></div>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'theory'">
+        <app-theory formGroupName="theory" (changeTab)="onTabChange($event)" ></app-theory>
+        <div class="theory">
+          <h2>Музично-теоретичний аналіз</h2>
+
+          <p *ngIf="this.annotationForm.value.theory?.formArr[0].from && this.annotationForm.value.theory?.formArr[0].to">dscsdcscd</p>
+          <p>Форма твору: {{this.annotationForm.value.theory?.form}}</p>
+          <p>Фактура твору {{this.annotationForm.value.theory?.facture}}</p>
+          <p>Темп у творі {{this.annotationForm.value.theory?.tempos}}</p>
+          <p>Ансамбль у хорі {{this.annotationForm.value.theory?.ensemble}}</p>
+          <p>Особливості строю {{this.annotationForm.value.theory?.scale}}</p>
+          <p>Основна тональність {{this.annotationForm.value.theory?.fret}}</p>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'vocal'">
+        <app-vocal formGroupName="vocal" (changeTab)="onTabChange($event)" ></app-vocal>
+        <div class="vocal">
+          <h2>Вокально-хоровий аналіз</h2>
+          <p>Вид хору: {{this.annotationForm.value.vocal?.kind}}</p>
+          <p>Тип хору: {{this.annotationForm.value.vocal?.type}}</p>
+          <h3>Диапазон хорових партій</h3>
+          <div>
+            <p>Сопрано: {{this.annotationForm.value.vocal?.soprano}}</p>
+            <p>Альт: {{this.annotationForm.value.vocal?.alt}}</p>
+            <p>Тенор: {{this.annotationForm.value.vocal?.tenore}}</p>
+            <p>Бас: {{this.annotationForm.value.vocal?.bass}}</p>
+          </div>
+          <p>Артикуляція у творі здебільшого {{this.annotationForm.value.vocal?.articulation}} </p>
+          <p>Тесситура у творі здебільшого {{this.annotationForm.value.vocal?.articulation}} </p>
+          <p>Дихання у творі {{this.annotationForm.value.vocal?.breath}} </p>
+        </div>
+      </div>
+
+        <div *ngSwitchCase="'performance'" formGroupName="performance">
+          <app-performance formGroupName="performance" (changeTab)="onTabChange($event)"></app-performance>
+          <div class="performance">
+            <h2>Виконавський аналіз</h2>
+            <p>{{this.annotationForm.value.performance?.literatureText}}</p>
+            <p>{{this.annotationForm.value.performance?.gesture}}</p>
+            <p>{{this.annotationForm.value.performance?.dynamics}}</p>
+            <p>{{this.annotationForm.value.performance?.culmination}}</p>
+          </div>
+        </div>
+
+
+        <div *ngSwitchCase="'difficulties'" formGroupName="difficulties">
+          <app-difficulties formGroupName="difficulties" ></app-difficulties>
+          <div class="difficulties">
+            <div class="inputs">
+              <h2>Складнощі твору:</h2>
+              <p>Вокальні складнощі в творі: {{this.annotationForm.value.difficulties?.vocal}}</p>
+              <p>Інтонаційні складнощі в творі: {{this.annotationForm.value.difficulties?.intonation}}</p>
+              <p>Диригентські складнощі в творі: {{this.annotationForm.value.difficulties?.director}}</p>
+              <p>Ансамблеві складнощі в творі: {{this.annotationForm.value.difficulties?.ensemble}}</p>
+              <p>Складнощі строю в творі: {{this.annotationForm.value.difficulties?.scale}}</p>
+              <!--<div [innerHTML]="this.annotationForm.value.difficulties?.others | areaTransform"></div>-->
+            </div>
+          </div>
+        </div>
+
+        <button type="submit">Зберегти</button>
+
+    </form>
+    <button (click)="openedTab = 'result'">Результати</button>
+  </div>
+
+  <div *ngSwitchCase="'result'">
+    <button (click)="openedTab = 'reducting'; partForm = 'title'">Редагувати аннотацію</button>
+    <div class="content">
+      <div class="title">
+        <div class="result">
+          <h1>Анотація</h1>
+          <div [ngSwitch]="this.annotationForm.value.title?.type">
+            <div *ngSwitchCase="'opera'">
+              <p>хору з {{this.annotationForm.value.title?.piece_part}} дії опери
+                "{{this.annotationForm.value.title?.wholeComposition}}" {{this.annotationForm.value.title?.composed}}</p>
+              <p>"{{this.annotationForm.value.title?.piece_name}}"</p>
+            </div>
+            <div *ngSwitchCase="'part'">
+              <p>хору з {{this.annotationForm.value.title?.piece_part}} частини з
+                "{{this.annotationForm.value.title?.wholeComposition}}" {{this.annotationForm.value.title?.composed}}</p>
+              <p>"{{this.annotationForm.value.title?.piece_name}}"</p>
+            </div>
+            <div *ngSwitchCase="'miniature'">
+              <p>до хорового твору <span
+                *ngIf="this.annotationForm.value.title?.accompaniment === 'true'">з супрододом</span>
+              </p>
+              <p> "{{this.annotationForm.value.title?.piece_name}}" {{this.annotationForm.value.title?.composed}}</p>
+            </div>
+          </div>
+          <p>Підготовлена <span *ngIf="this.annotationForm.value.title?.man === 'male'; else: female">студентом</span>
+            <ng-template #female>
+              <span>студенткою</span></ng-template>
+            {{this.annotationForm.value.title?.course}} курсу
+          </p>
+          <p>{{this.annotationForm.value.title?.fullName}}</p>
+        </div>
+      </div>
+
+
+      <div class="historical">
+        <h2>Загальний аналіз твору</h2>
+        <h3>Відомості про композитора:</h3>
+        <div *ngIf="this.annotationForm.value.title?.composed === 'Леонтович'">
+          <div>{{this.composers[this.foundIndex].composer_biography}}</div>
+          <div>{{this.composers[this.foundIndex].composer_works}}</div>
+        </div>
+        <h3>Відомості про автора:</h3>
+        <div [innerHTML]="this.annotationForm.value.historical?.text_author | areaTransform"></div>
+        <div>Жанр цього твору:{{this.annotationForm.value.historical?.genre}}</div>
+        <div [innerHTML]="this.annotationForm.value.historical?.text_content | areaTransform"></div>
+      </div>
+
+
+      <div class="theory">
+        {{log()}}
+        <p>{{this.annotationForm.value.theory?.formArr[0]}}</p>
+        <h2>Музично-теоретичний аналіз</h2>
+        <p>Форма твору: {{this.annotationForm.value.theory?.form}}</p>
+        <p>Фактура твору {{this.annotationForm.value.theory?.facture}}</p>
+        <p>Темп у творі {{this.annotationForm.value.theory?.tempos}}</p>
+        <p>Ансамбль у хорі {{this.annotationForm.value.theory?.ensemble}}</p>
+        <p>Особливості строю {{this.annotationForm.value.theory?.scale}}</p>
+        <p>Основна тональність {{this.annotationForm.value.theory?.fret}}</p>
+      </div>
+      <div class="vocal">
+        <h2>Вокально-хоровий аналіз</h2>
+        <p>Вид хору: {{this.annotationForm.value.vocal?.kind}}</p>
+        <p>Тип хору: {{this.annotationForm.value.vocal?.type}}</p>
+        <h3>Диапазон хорових партій</h3>
+        <div>
+          <p>Сопрано: {{this.annotationForm.value.vocal?.soprano}}</p>
+          <p>Альт: {{this.annotationForm.value.vocal?.alt}}</p>
+          <p>Тенор: {{this.annotationForm.value.vocal?.tenore}}</p>
+          <p>Бас: {{this.annotationForm.value.vocal?.bass}}</p>
+        </div>
+        <p>Артикуляція у творі здебільшого {{this.annotationForm.value.vocal?.articulation}} </p>
+        <p>Тесситура у творі здебільшого {{this.annotationForm.value.vocal?.articulation}} </p>
+        <p>Дихання у творі {{this.annotationForm.value.vocal?.breath}} </p>
+      </div>
+
+      <div class="performance">
+        <h2>Виконавський аналіз</h2>
+        <p>{{this.annotationForm.value.performance?.literatureText}}</p>
+        <p>{{this.annotationForm.value.performance?.gesture}}</p>
+        <p>{{this.annotationForm.value.performance?.dynamics}}</p>
+        <p>{{this.annotationForm.value.performance?.culmination}}</p>
+      </div>
+
+      <div class="difficulties">
+        <div class="inputs">
+          <h2>Складнощі твору:</h2>
+          <p>Вокальні складнощі в творі: {{this.annotationForm.value.difficulties?.vocal}}</p>
+          <p>Інтонаційні складнощі в творі: {{this.annotationForm.value.difficulties?.intonation}}</p>
+          <p>Диригентські складнощі в творі: {{this.annotationForm.value.difficulties?.director}}</p>
+          <p>Ансамблеві складнощі в творі: {{this.annotationForm.value.difficulties?.ensemble}}</p>
+          <p>Складнощі строю в творі: {{this.annotationForm.value.difficulties?.scale}}</p>
+          <!--<div [innerHTML]="this.annotationForm.value.difficulties?.others | areaTransform"></div>-->
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+\\ сделать єлемменті формі arrayями сделать отрисовку array
+// делать меньшие компоненты
+\\засунуть в сервис
+-->

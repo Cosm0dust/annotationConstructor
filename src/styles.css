@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
-
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Pattaya&display=swap");
 /* Указываем box sizing */
 *,
 *::before,
@@ -78,3 +78,5 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/*# sourceMappingURL=styles.css.map */

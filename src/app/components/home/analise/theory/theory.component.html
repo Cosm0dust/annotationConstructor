@@ -1,0 +1,88 @@
+<h2>Теоретичний аналіз</h2>
+<div [formGroup]="form" class="inputs">
+  <input formControlName="form" placeholder="Форма твору">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="formWhole"> Так
+    <input type="radio" value="whole" formControlName="formWhole"> Ні
+  </p>
+
+  <div *ngIf="this.form.value?.formWhole === 'partly'" formArrayName="formArr" >
+    <ng-container *ngFor="let one of this.getArr('theory.formArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.formArr')">addControls</button>
+  </div>
+
+  <input formControlName="facture" placeholder="Фактура твору">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="factureWhole"> Так
+    <input type="radio" value="whole" formControlName="factureWhole"> Ні
+  </p>
+  <div *ngIf="this.form.value?.factureWhole === 'partly'" formArrayName="factureArr">
+    <ng-container *ngFor="let two of this.getArr('theory.factureArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.factureArr')">addControls</button>
+  </div>
+
+  <input formControlName="tempos" placeholder="Темп у творі">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="temposWhole"> Так
+    <input type="radio" value="whole" formControlName="temposWhole"> Ні
+  </p>
+  <div *ngIf="this.form.value?.temposWhole === 'partly'" formArrayName="temposArr">
+    <ng-container *ngFor="let three of this.getArr('theory.temposArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.temposArr')">addControls</button>
+  </div>
+
+  <input formControlName="ensemble" placeholder="Ансамбль твору">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="ensembleWhole"> Так
+    <input type="radio" value="whole" formControlName="ensembleWhole"> Ні
+  </p>
+  <div *ngIf="this.form.value?.ensembleWhole === 'partly'" formArrayName="ensembleArr">
+    <ng-container *ngFor="let four of this.getArr('theory.ensembleArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.ensembleArr')">addControls</button>
+  </div>
+
+  <input formControlName="scale" placeholder="Стрій у творі">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="scaleWhole"> Так
+    <input type="radio" value="whole" formControlName="scaleWhole"> Ні
+  </p>
+  <div *ngIf="this.form.value?.scaleWhole === 'partly'" formArrayName="scaleArr">
+    <ng-container *ngFor="let five of this.getArr('theory.scaleArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.scaleArr')">addControls</button>
+  </div>
+
+  <input formControlName="fret" placeholder="Основна тональність твору">
+  <p>Чи змінюється у творі:
+    <input type="radio" value="partly" formControlName="fretWhole"> Так
+    <input type="radio" value="whole" formControlName="fretWhole"> Ні
+  </p>
+  <div *ngIf="this.form.value?.fretWhole === 'partly'" formArrayName="fretArr">
+    <ng-container *ngFor="let item of this.getArr('theory.fretArr').controls; let i = index"
+                  [formGroupName]="i">
+      <input type="text" formControlName="from">
+      <input type="text" formControlName="to">
+    </ng-container>
+    <button (click)="addPart('theory.fretArr')">addControls</button>
+  </div>
+</div>
+<button (click)="onTabChange('vocal')">Продовжити написання аннотації</button>

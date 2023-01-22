@@ -1,0 +1,16 @@
+<div  [formGroup]="form">
+
+  <h2>Вокальний аналіз</h2>
+  <input formControlName="kind" placeholder="Вид хору">
+  <input formControlName="type" placeholder="Тип хору">
+  <p>Діапазон хору</p>
+  <input formControlName="soprano" placeholder="Сопрано">
+  <input formControlName="alt" placeholder="Альт">
+  <input formControlName="tenore" placeholder="Тенор">
+  <input formControlName="bass" placeholder="Бас">
+
+  <input formControlName="breath" placeholder="Дихання">
+  <input formControlName="tessiture" placeholder="Теситура">
+  <input formControlName="articulation" placeholder="Артикуляція">
+  <button (click)="onTabChange('performance')">Продовжити написання аннотації</button>
+</div>

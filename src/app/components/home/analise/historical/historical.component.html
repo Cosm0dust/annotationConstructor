@@ -1,0 +1,10 @@
+<div [formGroup]="form">
+  <h2>Короткі відомості про життєвий і творчий шлях авторів музики і тексту.</h2>
+  <p>Відомості про композитора: <textarea class="area" wrap="soft" formControlName="text_author"></textarea>
+  </p>
+  <p>Відомості про творчий шлях композитора: <textarea class="area" wrap="soft"
+                                                       formControlName="text_author"></textarea></p>
+  <p>Жарова складова твору: <input formControlName="genre"></p>
+  <p>Зміст твору: <textarea formControlName="text_content"></textarea></p>
+</div>
+<button (click)="onTabChange('theory')">Продовжити написання аннотації</button>

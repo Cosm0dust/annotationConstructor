@@ -1,0 +1,67 @@
+<div [formGroup]="form">
+  <h2>Титульна сторінка</h2>
+  <div>
+    Тип твору:<select id="type" formControlName="type"
+  >
+    <option value="opera">З опери</option>
+    <option value="miniature">Самостійний</option>
+    <option value="part">Частина</option>
+  </select>
+
+
+    <div [ngSwitch]="this.form.value?.type">
+      <div *ngSwitchCase="'opera'">
+        <input formControlName="piece_part" placeholder="Дія опери">
+        <input formControlName="wholeComposition" placeholder="Назва опери">
+        <input formControlName="piece_name" placeholder="Назва хору">
+      </div>
+      <div *ngSwitchCase="'miniature'">
+        <div>Аккомпанемент:
+          <label>
+            <input type="radio" value="true" formControlName="accompaniment"> Є
+          </label>
+          <label>
+            <input type="radio" value="false" formControlName="accompaniment"> Немає
+          </label>
+        </div>
+        <input formControlName="piece_name" placeholder="Назва твору">
+      </div>
+      <div *ngSwitchCase="'part'">
+        <input formControlName="piece_part" placeholder="Номер частини">
+        <input formControlName="piece_name" placeholder="Назва частини">
+        <input formControlName="wholeComposition" placeholder="Назва циклу">
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <div>
+      Композитор:<select id="composer"
+                         formControlName="composed"
+    >
+      <option *ngFor="let composer of composers" [value]="composer.composer_name">
+        {{composer.composer_name}}
+      </option>
+      <option value="other">Інший</option>
+    </select>
+    </div>
+    <div *ngIf="this.form.value.title?.composed=== 'other'">
+      <input formControlName="composer_name" placeholder="Ім'я та фамілія композитора у родовому відмінку">
+    </div>
+  </div>
+
+
+  <div>
+    <p>Відомості про автора аннотації:</p>
+    <p>Стать:
+      <input type="radio" value="male" formControlName="man"> чоловіча
+      <input type="radio" value="female" formControlName="man"> жіноча
+    </p>
+    <p><input formControlName="course" placeholder="Курс">
+      <input formControlName="fullName" placeholder="Ім'я та фамілія автора аннотації"></p>
+  </div>
+
+
+<button (click)="onTabChange('historical')">Продовжити написання аннотації</button>
+</div>
